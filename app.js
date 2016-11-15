@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
+const config = require('./config.json')
 const bot = new Discord.Client();
-const prefix = "==";
+
 
 bot.on('ready', () => {
   console.log('I am ready!');
@@ -8,11 +9,30 @@ bot.on('ready', () => {
 
 bot.on('message', message => {
   if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(config.prefix)) return;
 
-  if (message.content.startsWith(prefix + "ping")) {
-    message.channel.sendMessage('pong');
+  let command = message.content.split(' ')[0];
+  command = command.slice(config.prefix.length);
+  console.log(command);
+
+  let args = message.content.split(' ').slice(1);
+  console.log(args);
+
+  if (command === 'penis') {
+    message.channel.sendMessage('vagina');
+  }
+  else if (command === 'ray') {
+    message.channel.sendMessage('fucked me');
+  }
+  else if (command === 'say') {
+    message.channel.sendMessage(args.join(' '));
+  }
+  else if (command === 'tip') {
+    let percent = args[0] * .01;
+    let checkAmount = args[1];
+    let totalTip = checkAmount * percent;
+    message.channel.sendMessage('Tip for $' + checkAmount + ' @ ' + args[0] + '% is $' + totalTip.toFixed(2));
   }
 });
 
-bot.login('MjQ3ODgwMzU0Nzk3NDUzMzIy.CwvpcQ.Tm6v8ARVLJUiLyr6FNpZykvVV30');
+bot.login(config.token);
