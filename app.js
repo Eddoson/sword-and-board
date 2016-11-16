@@ -18,11 +18,11 @@ bot.on('message', message => {
   let args = message.content.split(' ').slice(1);
   console.log(args);
 
-  if (command === 'penis') {
-    message.channel.sendMessage('vagina');
+  if (command === 'ping') {
+    message.channel.sendMessage('pong');
   }
-  else if (command === 'ray') {
-    message.channel.sendMessage('fucked me');
+  else if (command === 'bae') {
+    message.channel.sendMessage('life');
   }
   else if (command === 'say') {
     message.channel.sendMessage(args.join(' '));
