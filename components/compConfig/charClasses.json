@@ -1,0 +1,18 @@
+{
+  "warrior":{
+    "class":"warrior",
+    "hpMax":"20",
+    "hp":"20",
+    "xpMax":"100",
+    "xp":"0",
+    "equipment": [
+      "rusty shovel",
+      "cloth shirt"
+    ],
+    "stats":{
+      "str":"10",
+      "int":"8",
+      "dex":"10"
+    }
+  }
+}

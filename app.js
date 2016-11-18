@@ -1,38 +1,47 @@
 const Discord = require('discord.js');
-const config = require('./config.json')
+const RPG = require('./components/rpg.js')
+const Config = require('./config/config.json');
+const Help = require('./config/help.json');
 const bot = new Discord.Client();
 
+
+function printMessageToChannel(msg, message) {
+    message.channel.sendMessage(msg);
+}
 
 bot.on('ready', () => {
   console.log('I am ready!');
 });
 
+bot.on('error', e => {
+  console.error(e);
+});
+
 bot.on('message', message => {
   if (message.author.bot) return;
-  if (!message.content.startsWith(config.prefix)) return;
+  if (!message.content.startsWith(Config.prefix)) return;
 
   let command = message.content.split(' ')[0];
-  command = command.slice(config.prefix.length);
+  command = command.slice(Config.prefix.length);
   console.log(command);
 
   let args = message.content.split(' ').slice(1);
   console.log(args);
 
-  if (command === 'ping') {
-    message.channel.sendMessage('pong');
-  }
-  else if (command === 'bae') {
-    message.channel.sendMessage('life');
-  }
-  else if (command === 'say') {
-    message.channel.sendMessage(args.join(' '));
-  }
-  else if (command === 'tip') {
-    let percent = args[0] * .01;
-    let checkAmount = args[1];
-    let totalTip = checkAmount * percent;
-    message.channel.sendMessage('Tip for $' + checkAmount + ' @ ' + args[0] + '% is $' + totalTip.toFixed(2));
+  if (command === 'createCharacter') {
+    let incorrectSyntax = args.length === 0;
+    if (incorrectSyntax){
+      message.channel.sendMessage(Help[createCharacter]);
+      return;
+    }
+
+    let charName = args[0];
+    let charClass = args[1];
+    let success = RPG.createCharacter(charName, charClass);
+    if (success){
+      message.channel.sendMessage(`The world welcomes its newest ${charClass} called ${charName}.`);
+    }
   }
 });
 
-bot.login(config.token);
+bot.login(Config.token);

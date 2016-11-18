@@ -1,0 +1,9 @@
+{
+  "rusty shovel":{
+    "damageMin":"1",
+    "damageMax":"2"
+  },
+  "cloth shirt":{
+    "armor":"1"
+  }
+}
