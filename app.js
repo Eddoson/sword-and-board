@@ -1,3 +1,5 @@
+//main file app.js
+
 const Discord = require('discord.js');
 const RPG = require('./components/rpg.js')
 const Config = require('./config/config.json');
