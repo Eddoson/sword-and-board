@@ -2,33 +2,28 @@
 
 const Redis = require('redis');
 const charClasses = require('./compConfig/charClasses.json');
+const Main = require('../app.js');
+const Helper = require('./helpers.js');
 const redisClient = Redis.createClient();
 
 redisClient.on('connect', function() {
   console.log('Redis ready!');
 });
 
-module.exports = {
-  // TODO: The callback for this needs to call a callback from app.js to finish
-  //       need to figure out how to call app.js method to print to channel when
-  //       finished
-  // characterToString: function characterToString(charName, message) {
-  //   var characterString = "";
-  //   let status = redisClient.hgetall(charName, function callBack(err, charObject) {
-  //     if (err) {
-  //       console.error();
-  //       return;
-  //     }
-  //     console.log(JSON.stringify(charObject));
-  //     charObject.characterName = charName;
-  //     for (key in charObject){
-  //       console.log(`\n${key}: ${charObject[key]}\n`);
-  //       characterString.concat(`\n${key}: ${charObject[key]}\n`);
-  //     }
-  //   });
-  // },
-  createCharacter: function createCharacter(charName, charClass) {
+exports.characterToString = function characterToString(charName, messageObj) {
+    var characterString = "";
+    let status = redisClient.hgetall(charName, function getCharacterCallback(err, characterObject) {
+      messageObj.channel.sendMessage(JSON.stringify(characterObject, null, 4));
+      console.log(PrintCharacterFormat.name);
+    });
+
+    console.log(`status ${status}`);
+};
+
+exports.createCharacter = function createCharacter(charName, charClass, owner) {
     var characterObject = charClasses[charClass];
+    characterObject.name = charName;
+    characterObject.owner = owner;
     console.log(`Creating ${charClass}, found ${characterObject}`);
     let result = redisClient.hmset(charName, characterObject, function callBack(err, reply) {
       if(err){
@@ -40,5 +35,4 @@ module.exports = {
     });
 
     return result;
-  }
 };

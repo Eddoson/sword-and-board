@@ -3,16 +3,15 @@
     "class":"warrior",
     "hpMax":"20",
     "hp":"20",
+    "level":"1",
     "xpMax":"100",
     "xp":"0",
     "equipment": [
       "rusty shovel",
       "cloth shirt"
     ],
-    "stats":{
-      "str":"10",
-      "int":"8",
-      "dex":"10"
-    }
+    "str":"12",
+    "dex":"10",
+    "int":"8"
   }
 }
