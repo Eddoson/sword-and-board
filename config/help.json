@@ -7,6 +7,10 @@
     "helpMessage":"To view your character's inventory, simply type:\ninventory",
     "numArgs":"0"
   },
+  "characterSheet":{
+    "helpMessage":"To view your character's info sheet, simply type:\ncharacterSheet",
+    "numArgs":"0"
+  },
   "unknownCommand": {
     "helpMessage":"Unknown command! Try using the 'help' command for help.",
     "numArgs":"-1"

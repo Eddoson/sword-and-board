@@ -1,4 +1,5 @@
 {
   "token":"@@",
-  "inventory":"\n------INVENTORY------\nEquipment: @@equipment@@"
+  "inventory":"\n------INVENTORY------\nEquipment: @@equipment@@",
+  "charSheet":"\n------CHARACTER------\nName: @@name@@\nClass: @@class@@\nLevel: @@level@@\nXP: @@xp@@/@@xpMax@@\nHP: @@hp@@/@@hpMax@@\nDex: @@dex@@ Str: @@str@@ Int: @@int@@"
 }

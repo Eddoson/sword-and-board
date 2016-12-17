@@ -48,6 +48,10 @@ bot.on('message', message => {
     //print the inventory
     RPG.printCharacter(author, message, RPG.PANE_TYPE_INVENTORY);
   }
+  else if (command === "characterSheet") {
+    //print the character sheet
+    RPG.printCharacter(author, message, RPG.PANE_TYPE_CHARACTER_SHEET);
+  }
   else if (command === "help") {
     //print help
     let helpString = "";

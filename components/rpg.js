@@ -65,9 +65,9 @@ exports.createCharacter = function createCharacter(owner, charName, charClass) {
 };
 
 //replace any tokens from within a template file
-//i.e. This is a template for @@aVariable@@
+//i.e. This is a template for: @@aVariable@@
 //     will become:
-//     This is a template for some value
+//     This is a template for: some value replaced
 function replaceTokensInTemplate(paneType, characterObject) {
   let token = PrintableTemplates.token
   let tokenKey = ""
@@ -76,7 +76,6 @@ function replaceTokensInTemplate(paneType, characterObject) {
     console.error(`Attempted to replace paneType ${paneType}
       with characterString: ${characterString}
       in characterObject ${JSON.stringify(characterObject, null, 4)}`);
-
     return null;
   }
 
