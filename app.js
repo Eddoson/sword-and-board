@@ -29,21 +29,55 @@ bot.on('message', message => {
   let args = message.content.split(' ').slice(1);
   console.log(args);
 
-  if (command === 'createCharacter') {
-    let incorrectSyntax = args.length === 0;
-    if (incorrectSyntax){
-      message.channel.sendMessage(Help[createCharacter]);
-      return;
-    }
+  let author = message.author;
+  console.log(author);
 
+  if (!isSyntaxCorrectForCommand(message, args, command)){
+    return;
+  }
+  if (command === "createCharacter") {
+    //create a character
     let charName = args[0];
     let charClass = args[1];
-    let success = RPG.createCharacter(charName, charClass, message.author.username);
+    let success = RPG.createCharacter(author, charName, charClass );
     if (success){
       message.channel.sendMessage(`The world welcomes its newest ${charClass} called ${charName}.`);
-      RPG.characterToString(charName, message);
     }
   }
+  else if (command === "inventory") {
+    //print the inventory
+    RPG.printCharacter(author, message, RPG.PANE_TYPE_INVENTORY);
+  }
+  else if (command === "help") {
+    //print help
+    let helpString = "";
+    for (var helpKey in Help) {
+      if (Help.hasOwnProperty(helpKey) && helpKey != "unknownCommand" && helpKey != "help") {
+        helpString += `\n${Help[helpKey].helpMessage}`;
+      }
+      helpString += "\n";
+    }
+    message.channel.sendMessage(helpString);
+  }
 });
+
+//check the help file if this is the correct number of arguments for this command
+//if there are not, print the help string located in the help file
+function isSyntaxCorrectForCommand(message, args, command) {
+  let helpObject = Help[command];
+  if (helpObject == null){
+    message.channel.sendMessage(Help["unknownCommand"].helpMessage);
+    return false;
+  }
+
+  let incorrectSyntax = args.length !== parseInt(helpObject.numArgs);
+  if (incorrectSyntax){
+    message.channel.sendMessage(helpObject.helpMessage);
+    return false;
+  }
+  else {
+    return true;
+  }
+}
 
 bot.login(Config.token);

@@ -4,28 +4,55 @@ const Redis = require('redis');
 const charClasses = require('./compConfig/charClasses.json');
 const Main = require('../app.js');
 const Helper = require('./helpers.js');
+const PrintableTemplates = require('./compConfig/printableTemplates.json')
 const redisClient = Redis.createClient();
+
+//global strings
+const PANE_TYPE_INVENTORY = "inventory";
+const PANE_TYPE_CHARACTER_SHEET = "charSheet";
+exports.PANE_TYPE_INVENTORY = PANE_TYPE_INVENTORY;
+exports.PANE_TYPE_CHARACTER_SHEET = PANE_TYPE_CHARACTER_SHEET;
+
 
 redisClient.on('connect', function() {
   console.log('Redis ready!');
 });
 
-exports.characterToString = function characterToString(charName, messageObj) {
-    var characterString = "";
-    let status = redisClient.hgetall(charName, function getCharacterCallback(err, characterObject) {
-      messageObj.channel.sendMessage(JSON.stringify(characterObject, null, 4));
-      console.log(PrintCharacterFormat.name);
+//print something about a character depending on the paneType
+//i.e. paneType = PANE_TYPE_INVENTORY then we will print information about
+//     the character's inventory
+exports.printCharacter = function characterToString(owner, messageObj, paneType) {
+    let status = redisClient.hgetall(owner.id, function getCharacterCallback(err, characterObject) {
+      if (err){
+        console.error(err);
+        messageObj.channel.sendMessage(`ERROR Retrieving ${charName}`);
+        return;
+      }
+
+      //successful
+      console.log(`Successfully retrieved character\n${JSON.stringify(characterObject, null, 4)}`);
+      let characterString = ""
+      //use the paneType the template to print, replace tokens with useful info
+      characterString = replaceTokensInTemplate(paneType, characterObject);
+      if (characterString == null){
+        return;
+      }
+      messageObj.channel.sendMessage(characterString);
     });
 
-    console.log(`status ${status}`);
+    return status;
 };
 
-exports.createCharacter = function createCharacter(charName, charClass, owner) {
+//create a character by hashing the owner's id to the database to store info
+exports.createCharacter = function createCharacter(owner, charName, charClass) {
     var characterObject = charClasses[charClass];
+
+    //add a few extra entries to this object before committing to db
     characterObject.name = charName;
-    characterObject.owner = owner;
-    console.log(`Creating ${charClass}, found ${characterObject}`);
-    let result = redisClient.hmset(charName, characterObject, function callBack(err, reply) {
+    characterObject.ownerId = owner.id;
+    characterObject.ownerName = owner.username;
+
+    let result = redisClient.hmset(owner.id, characterObject, function callBack(err, reply) {
       if(err){
         console.error(`FAILED creating character: ${charName} - class: ${charClass}`);
         return false;
@@ -36,3 +63,28 @@ exports.createCharacter = function createCharacter(charName, charClass, owner) {
 
     return result;
 };
+
+//replace any tokens from within a template file
+//i.e. This is a template for @@aVariable@@
+//     will become:
+//     This is a template for some value
+function replaceTokensInTemplate(paneType, characterObject) {
+  let token = PrintableTemplates.token
+  let tokenKey = ""
+  let characterString = PrintableTemplates[paneType];
+  if (characterString == null){
+    console.error(`Attempted to replace paneType ${paneType}
+      with characterString: ${characterString}
+      in characterObject ${JSON.stringify(characterObject, null, 4)}`);
+
+    return null;
+  }
+
+  for (var key in characterObject) {
+    tokenKey = token + key + token;
+    if (characterObject.hasOwnProperty(key) && characterString.indexOf(tokenKey) >= 0) {
+      characterString = characterString.replace(tokenKey, characterObject[key]);
+    }
+  }
+  return characterString;
+}

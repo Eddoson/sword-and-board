@@ -1,3 +1,18 @@
 {
-  "createCharacter":"createCharacter <characterName> <characterClass>"
+  "createCharacter":{
+    "helpMessage":"To create a character:\ncreateCharacter <characterName> <characterClass>",
+    "numArgs":"2"
+  },
+  "inventory":{
+    "helpMessage":"To view your character's inventory, simply type:\ninventory",
+    "numArgs":"0"
+  },
+  "unknownCommand": {
+    "helpMessage":"Unknown command! Try using the 'help' command for help.",
+    "numArgs":"-1"
+  },
+  "help":{
+    "helpMessage":"Help command does not need any arguments. Just type 'help'",
+    "numArgs":"0"
+  }
 }
