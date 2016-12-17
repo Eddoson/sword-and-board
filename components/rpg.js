@@ -1,7 +1,8 @@
 //this script is in charge of rpg logic and managing the database
 
 const Redis = require('redis');
-const charClasses = require('./compConfig/charClasses.json');
+const CharClasses = require('./compConfig/charClasses.json');
+const Enemies = require('./compConfig/enemies.json');
 const Main = require('../app.js');
 const Helper = require('./helpers.js');
 const PrintableTemplates = require('./compConfig/printableTemplates.json')
@@ -10,6 +11,8 @@ const redisClient = Redis.createClient();
 //global strings
 const PANE_TYPE_INVENTORY = "inventory";
 const PANE_TYPE_CHARACTER_SHEET = "charSheet";
+
+//export constants that need to be exposed
 exports.PANE_TYPE_INVENTORY = PANE_TYPE_INVENTORY;
 exports.PANE_TYPE_CHARACTER_SHEET = PANE_TYPE_CHARACTER_SHEET;
 
@@ -21,11 +24,11 @@ redisClient.on('connect', function() {
 //print something about a character depending on the paneType
 //i.e. paneType = PANE_TYPE_INVENTORY then we will print information about
 //     the character's inventory
-exports.printCharacter = function characterToString(owner, messageObj, paneType) {
+exports.printCharacterByPaneType = function characterToString(owner, messageObj, paneType) {
     let status = redisClient.hgetall(owner.id, function getCharacterCallback(err, characterObject) {
       if (err){
         console.error(err);
-        messageObj.channel.sendMessage(`ERROR Retrieving ${charName}`);
+        messageObj.channel.sendMessage(`ERROR Retrieving character information for ${owner}`);
         return;
       }
 
@@ -45,7 +48,7 @@ exports.printCharacter = function characterToString(owner, messageObj, paneType)
 
 //create a character by hashing the owner's id to the database to store info
 exports.createCharacter = function createCharacter(owner, charName, charClass) {
-    var characterObject = charClasses[charClass];
+    var characterObject = CharClasses[charClass];
 
     //add a few extra entries to this object before committing to db
     characterObject.name = charName;
@@ -63,6 +66,21 @@ exports.createCharacter = function createCharacter(owner, charName, charClass) {
 
     return result;
 };
+
+//TODO: for now, fight a random monster to test combat mechanics. later we need
+//      to flesh this out to exploration and random encounters, etc
+exports.fight = function fight(owner) {
+  redisClient.hgetall(owner.id, function getCharacterCallback(err, characterObject) {
+    if (err){
+      console.error(err);
+      messageObj.channel.sendMessage(`ERROR Retrieving character information for ${owner}`);
+      return;
+    }
+
+    //Successfully retrieved character information
+    //FIXME: ONLY GOBLIN APPEARS!
+  });
+}
 
 //replace any tokens from within a template file
 //i.e. This is a template for: @@aVariable@@

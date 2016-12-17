@@ -1,22 +1,22 @@
 {
   "createCharacter":{
-    "helpMessage":"To create a character:\ncreateCharacter <characterName> <characterClass>",
+    "helpMessage":"To create a character:\n=-createCharacter <characterName> <characterClass>",
     "numArgs":"2"
   },
   "inventory":{
-    "helpMessage":"To view your character's inventory, simply type:\ninventory",
+    "helpMessage":"To view your character's inventory, simply type:\n=-inventory",
     "numArgs":"0"
   },
   "characterSheet":{
-    "helpMessage":"To view your character's info sheet, simply type:\ncharacterSheet",
+    "helpMessage":"To view your character's info sheet, simply type:\n=-characterSheet",
     "numArgs":"0"
   },
   "unknownCommand": {
-    "helpMessage":"Unknown command! Try using the 'help' command for help.",
+    "helpMessage":"Unknown command! Try using the '=-help' command for help.",
     "numArgs":"-1"
   },
   "help":{
-    "helpMessage":"Help command does not need any arguments. Just type 'help'",
+    "helpMessage":"Help command does not need any arguments. Just type '=-help'",
     "numArgs":"0"
   }
 }

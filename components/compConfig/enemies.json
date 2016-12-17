@@ -1,0 +1,15 @@
+{
+  "goblin":{
+    "class":"warrior",
+    "hpMax":"20",
+    "hp":"20",
+    "level":"1",
+    "equipment": [
+      "rusty shovel",
+      "cloth shirt"
+    ],
+    "str":"12",
+    "dex":"10",
+    "int":"8"
+  }
+}

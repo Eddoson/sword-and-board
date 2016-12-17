@@ -3,6 +3,8 @@
 const Discord = require('discord.js');
 const RPG = require('./components/rpg.js')
 const Config = require('./config/config.json');
+//TODO: help.json has hardcoded prefixes in the strings. change to be @@prefix@@
+//      and replace later with the actual prefix from Config.prefix
 const Help = require('./config/help.json');
 const bot = new Discord.Client();
 
@@ -46,15 +48,17 @@ bot.on('message', message => {
   }
   else if (command === "inventory") {
     //print the inventory
-    RPG.printCharacter(author, message, RPG.PANE_TYPE_INVENTORY);
+    RPG.printCharacterByPaneType(author, message, RPG.PANE_TYPE_INVENTORY);
   }
   else if (command === "characterSheet") {
     //print the character sheet
-    RPG.printCharacter(author, message, RPG.PANE_TYPE_CHARACTER_SHEET);
+    RPG.printCharacterByPaneType(author, message, RPG.PANE_TYPE_CHARACTER_SHEET);
   }
   else if (command === "help") {
     //print help
     let helpString = "";
+
+    //loop through all the keys in the help json and print out all the help messages
     for (var helpKey in Help) {
       if (Help.hasOwnProperty(helpKey) && helpKey != "unknownCommand" && helpKey != "help") {
         helpString += `\n${Help[helpKey].helpMessage}`;
