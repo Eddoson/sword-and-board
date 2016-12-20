@@ -1,5 +1,6 @@
 {
   "token":"@@",
-  "inventory":"\n------INVENTORY------\nEquipment: @@equipment@@",
-  "charSheet":"\n------CHARACTER------\nName: @@name@@\nClass: @@class@@\nLevel: @@level@@\nXP: @@xp@@/@@xpMax@@\nHP: @@hp@@/@@hpMax@@\nDex: @@dex@@ Str: @@str@@ Int: @@int@@"
+  "inventory":"\n------INVENTORY------\nWeapon: @@weapon@@\nArmor: @@armor@@",
+  "charSheet":"\n------CHARACTER------\nName: @@name@@\nClass: @@class@@\nLevel: @@level@@\nXP: @@xp@@/@@xpMax@@\nHP: @@hp@@/@@hpMax@@\nDex: @@dex@@ Str: @@str@@ Int: @@int@@",
+  "fight":"\n------FIGHT------\nA wild @@enemy@@ appears! It looks angry!"
 }

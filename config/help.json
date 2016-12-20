@@ -11,6 +11,10 @@
     "helpMessage":"To view your character's info sheet, simply type:\n=-characterSheet",
     "numArgs":"0"
   },
+  "fight":{
+    "helpMessage":"To fight a random monster:\n=-fight",
+    "numArgs":"0"
+  },
   "unknownCommand": {
     "helpMessage":"Unknown command! Try using the '=-help' command for help.",
     "numArgs":"-1"

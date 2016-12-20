@@ -1,5 +1,9 @@
 {
   "rusty shovel":{
+    "damageMin":"3",
+    "damageMax":"5"
+  },
+  "bent stick":{
     "damageMin":"1",
     "damageMax":"2"
   },

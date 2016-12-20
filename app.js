@@ -54,6 +54,10 @@ bot.on('message', message => {
     //print the character sheet
     RPG.printCharacterByPaneType(author, message, RPG.PANE_TYPE_CHARACTER_SHEET);
   }
+  else if (command === "fight") {
+    //fight!
+    RPG.fight(author, message);
+  }
   else if (command === "help") {
     //print help
     let helpString = "";
@@ -73,7 +77,7 @@ bot.on('message', message => {
 //if there are not, print the help string located in the help file
 function isSyntaxCorrectForCommand(message, args, command) {
   let helpObject = Help[command];
-  if (helpObject == null){
+  if (typeof helpObject === 'undefined'){
     message.channel.sendMessage(Help["unknownCommand"].helpMessage);
     return false;
   }
