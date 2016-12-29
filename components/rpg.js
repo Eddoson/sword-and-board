@@ -86,8 +86,7 @@ exports.fight = function fight(owner, messageObj) {
       return;
     }
     if (characterObject === null) {
-      messageObj.channel.sendMessage(`Character not found! (Have you died?)`);
-      messageObj.channel.sendMessage(Help.createCharacter.helpMessage);
+      messageObj.channel.sendMessage(`Character not found! (Have you died?) \n${Help.createCharacter.helpMessage}`);
       return;
     }
 
