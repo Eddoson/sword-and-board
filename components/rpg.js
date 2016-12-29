@@ -46,15 +46,15 @@ exports.printCharacterByPaneType = function characterToString(owner, messageObj,
         console.error(`characterString was null in printCharacterByPaneType`);
         return;
       }
-      messageObj.channel.sendMessage(characterString);
+      messageObj.channel.sendMessage(characterString, {"split":true});
     });
 
     return status;
 };
 
 //update prexisting character with new data. if character has <= 0 hp, delete it. :)
-exports.updateCharacter = function updateCharacter(owner, newCharacterObject) {
-  updateCharacter(owner, newCharacterObject);
+exports.updateCharacter = function updateCharacter(owner, newCharacterObject, messageObj) {
+  updateCharacter(owner, newCharacterObject, messageObj);
 }
 
 //create a character by hashing the owner's id to the database to store info
@@ -85,14 +85,19 @@ exports.fight = function fight(owner, messageObj) {
       messageObj.channel.sendMessage(`ERROR Retrieving character information for ${owner}`);
       return;
     }
+    if (characterObject === null) {
+      messageObj.channel.sendMessage(`Character not found! (Have you died?)`);
+      messageObj.channel.sendMessage(Help.createCharacter.helpMessage);
+      return;
+    }
 
     //Successfully retrieved character information
     //FIXME: ONLY GOBLIN APPEARS!
     let enemyObject = Enemies.goblin;
     console.log("enemy" + JSON.stringify(enemyObject));
-    let fightResult = doBattle(owner, characterObject, enemyObject);
-    messageObj.channel.sendMessage(fightResult);
-  });
+    let fightResult = doBattle(owner, characterObject, enemyObject, messageObj);
+    messageObj.channel.sendMessage(fightResult, {"split":true}).catch(console.error);
+  })
 }
 
 //replace any tokens from within a template file
@@ -119,7 +124,7 @@ function replaceTokensInTemplate(paneType, characterObject) {
   return characterString;
 }
 
-function doBattle(owner, characterObj, enemyObj) {
+function doBattle(owner, characterObj, enemyObj, messageObj) {
   let fightResult = "";
   let characterWeapon = Items[characterObj.weapon];
   let enemyWeapon = Items[enemyObj.weapon];
@@ -147,11 +152,11 @@ function doBattle(owner, characterObj, enemyObj) {
   }
 
   enemyObj.hp = enemyObj.hpMax;
-  updateCharacter(owner, characterObj);
+  updateCharacter(owner, characterObj, messageObj);
   return fightResult;
 }
 
-function updateCharacter(owner, newCharacterObject) {
+function updateCharacter(owner, newCharacterObject, messageObj) {
   if (newCharacterObject.hp <= 0){
     //delete character if it has <= 0 hp
     redisClient.del(owner.id, function deleteCharacter(err, reply) {
@@ -159,7 +164,8 @@ function updateCharacter(owner, newCharacterObject) {
         console.error(`FAILED deleting character ${err}`);
       }
 
-      console.log(`SUCCESS deleting character`);
+      console.log(`SUCCESS deleting character ${reply}`);
+      messageObj.channel.sendMessage(`${newCharacterObject.name} the ${newCharacterObject.class} has DIED!! You join thousands of other failed, nameless adventurers in the eternal void.`)
     });
   }
   else {
@@ -169,7 +175,7 @@ function updateCharacter(owner, newCharacterObject) {
         console.error(`FAILED updating character ${err}`);
       }
 
-      console.log(`SUCCESS updating character`);
+      console.log(`SUCCESS updating character ${reply}`);
     });
   }
 }

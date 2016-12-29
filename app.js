@@ -3,6 +3,7 @@
 const Discord = require('discord.js');
 const RPG = require('./components/rpg.js')
 const Config = require('./config/config.json');
+
 //TODO: help.json has hardcoded prefixes in the strings. change to be @@prefix@@
 //      and replace later with the actual prefix from Config.prefix
 const Help = require('./config/help.json');

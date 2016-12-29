@@ -1,8 +1,8 @@
 {
   "warrior":{
     "class":"warrior",
-    "hpMax":"20",
-    "hp":"20",
+    "hpMax":"30",
+    "hp":"30",
     "level":"1",
     "xpMax":"100",
     "xp":"0",
