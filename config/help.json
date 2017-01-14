@@ -22,5 +22,9 @@
   "help":{
     "helpMessage":"Help command does not need any arguments. Just type '=-help'",
     "numArgs":"0"
+  },
+  "mememe":{
+    "helpMessage":"Meme me! Create memes on the go from any device!",
+    "numArgs":"-2"
   }
 }
