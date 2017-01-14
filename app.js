@@ -87,14 +87,19 @@ bot.on('message', message => {
 function isSyntaxCorrectForCommand(message, args, command) {
   let helpObject = Help[command];
   let incorrectSyntax = true;
+
   if (typeof helpObject === 'undefined'){
     message.channel.sendMessage(Help["unknownCommand"].helpMessage);
     return false;
   }
-
-  if (helpObject.numArgs === "-2"){
-    //-2 is unlimited args for this command
-    incorrectSyntax = false;
+  else if (parseInt(helpObject.numArgs) === -2){
+    //-2 means unlimited args, but still more than 0
+    if (args.length === 0){
+      incorrectSyntax = true;
+    }
+    else {
+      incorrectSyntax = false;
+    }
   }
   else {
     incorrectSyntax = args.length !== parseInt(helpObject.numArgs);

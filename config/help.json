@@ -15,6 +15,10 @@
     "helpMessage":"To fight a random monster:\n=-fight",
     "numArgs":"0"
   },
+  "mememe":{
+    "helpMessage":"Meme me! Create memes on the go from any device! Just type:\n=-mememe <text to meme>",
+    "numArgs":"-2"
+  },
   "unknownCommand": {
     "helpMessage":"Unknown command! Try using the '=-help' command for help.",
     "numArgs":"-1"
@@ -22,9 +26,5 @@
   "help":{
     "helpMessage":"Help command does not need any arguments. Just type '=-help'",
     "numArgs":"0"
-  },
-  "mememe":{
-    "helpMessage":"Meme me! Create memes on the go from any device!",
-    "numArgs":"-2"
   }
 }
