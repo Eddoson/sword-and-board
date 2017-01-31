@@ -72,14 +72,6 @@ bot.on('message', message => {
     }
     message.channel.sendMessage(helpString);
   }
-  else if (command === "mememe"){
-    //this is just a fun command to play with. it doesn't relate to the RPG
-    //elements of this bot. basically convert letters into emoji letters
-    let memeMessage = translateToMeme(message.content.split(`${Config.prefix}${command}`)[1]);
-    message.delete();
-    message.channel.sendMessage(`${message.author.username}:`);
-    message.channel.sendMessage(memeMessage);
-  }
 });
 
 //check the help file if this is the correct number of arguments for this command
@@ -112,20 +104,6 @@ function isSyntaxCorrectForCommand(message, args, command) {
   else {
     return true;
   }
-}
-
-function translateToMeme(message){
-  var memeMessage = "";
-  message.split("").map(function(elem){
-      if (/[a-zA-Z]/.test(elem)){
-        memeMessage += ':regional_indicator_' + elem.toLowerCase() + ':';
-      }
-      else{
-        memeMessage += elem;
-      }
-      memeMessage += " ";
-  })
-  return memeMessage;
 }
 
 bot.login(Config.token);
